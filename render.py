@@ -4,9 +4,9 @@
 Usage: python3 render.py [path/to/promos.csv] [output-dir]
 
 The CSV is the private source of truth and is NOT committed to the repo.
-Linked emails are never published: only a short account tag is shown
-(e.g. fopigoo+pan21@gmail.com -> "pan21"), so the public page carries
-no email addresses.
+Each card shows the full linked email address, at Andrew's explicit
+request (2026-11-06) — the site is public, so the addresses are visible
+to anyone who visits it.
 """
 import csv
 import html
@@ -19,15 +19,6 @@ CSV_PATH = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser(
     "~/workspace/panera_promos/promos.csv")
 OUT_DIR = sys.argv[2] if len(sys.argv) > 2 else os.path.dirname(
     os.path.abspath(__file__))
-
-
-def account_tag(email: str) -> str:
-    local = email.split("@")[0]
-    if "+" in local:
-        return local.split("+", 1)[1]
-    if "." in local:
-        return local.rsplit(".", 1)[1]
-    return local
 
 
 def fmt_date(iso: str) -> str:
@@ -53,7 +44,7 @@ def main() -> None:
                 f"  <h2>{html.escape(r['promo'])}</h2>\n"
                 f"  <p class=\"expires\">Expires {fmt_date(r['expires'])}</p>\n"
                 f"  <p class=\"fine\">{html.escape(r['fine_print'])}</p>\n"
-                f"  <p class=\"account\">Account: {html.escape(account_tag(r['linked_email']))}</p>\n"
+                f"  <p class=\"account\">Account: {html.escape(r['linked_email'])}</p>\n"
                 "</article>")
         body = (f"<p class=\"count\">{len(rows)} active "
                 f"{'promo' if len(rows) == 1 else 'promos'}</p>\n"
@@ -98,7 +89,7 @@ def main() -> None:
 <main>
 {body}
 </main>
-<footer>Last updated {updated}. Account tags identify which linked email holds each offer; no email addresses are published here.</footer>
+<footer>Last updated {updated}. Each card shows the full linked email for that offer.</footer>
 </body>
 </html>
 """
