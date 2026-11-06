@@ -7,13 +7,13 @@ MyPanera accounts: [alin5647.github.io/panera-promos](https://alin5647.github.io
 
 Only the offers I actually want: flat $ / % discounts and freebies. No delivery
 offers, no bonus points, no Sip Club, no conditional with-purchase add-ons.
-Each card shows the offer, its expiry, the fine print, and a short account tag
-identifying which linked email holds it.
+Each card shows the offer, its expiry, the fine print, and the full linked
+email address that holds it.
 
 ## Privacy
 
-No email addresses are published here. The account tags (e.g. `pan21`, `pn12`)
-are just labels for matching an offer to an account in my private table.
+Each card shows the full linked email address for its offer. This is a
+public page, so the addresses are visible to anyone who visits it.
 
 ## How it updates
 
