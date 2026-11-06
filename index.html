@@ -11,16 +11,26 @@
   header h1 { margin: 0 0 6px; font-size: 28px; }
   header p { margin: 0; opacity: .85; }
   main { max-width: 860px; margin: 0 auto; padding: 20px; }
-  .count { font-size: 18px; font-weight: 600; }
+  .count { font-size: 18px; font-weight: 600; margin: 0 0 4px; }
+  .hint { margin: 0 0 14px; font-size: 13px; color: #888; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
   .card { background: #fff; border: 1px solid #e5ddd2; border-radius: 12px; padding: 16px; }
   .card h2 { margin: 0 0 6px; font-size: 17px; }
   .expires { margin: 0 0 8px; font-weight: 700; color: #b23a00; }
   .fine { margin: 0 0 10px; font-size: 14px; line-height: 1.45; color: #555; }
   .account { margin: 0; font-size: 13px; color: #888; }
+  .record { opacity: .75; }
+  .section-title { margin: 28px 0 12px; font-size: 19px; }
   .empty { background: #fff; border: 1px solid #e5ddd2; border-radius: 12px; padding: 28px 20px; text-align: center; }
   .empty p:first-child { font-size: 19px; font-weight: 600; margin: 0 0 6px; }
   .empty p:last-child { margin: 0; color: #666; }
+  .swipe { position: relative; overflow: hidden; border-radius: 12px; }
+  .swipe .card { position: relative; z-index: 1; transition: transform .25s ease; cursor: pointer; height: 100%; box-sizing: border-box; }
+  .swipe.revealed .card { transform: translateX(-172px); }
+  .actions { position: absolute; top: 0; right: 0; bottom: 0; width: 172px; display: flex; z-index: 0; }
+  .actions button { flex: 1; border: 0; color: #fff; font-size: 13px; font-weight: 700; line-height: 1.25; padding: 8px 6px; cursor: pointer; }
+  .btn-used { background: #1e7d32; }
+  .btn-broken { background: #b3261e; }
   footer { max-width: 860px; margin: 0 auto; padding: 0 20px 28px; font-size: 13px; color: #888; }
 </style>
 </head>
@@ -31,63 +41,191 @@
 </header>
 <main>
 <p class="count">9 active promos</p>
-<div class="grid">
-<article class="card">
-  <h2>$2 Off Your Order</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; $2 off your order; max $2; not valid catering/third-party</p>
-  <p class="account">Account: alin5647.fp1+pan37@gmail.com</p>
-</article>
-<article class="card">
-  <h2>$3 Off Any Market Bowl</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; 11/04-11/11/2026; $3 off one Market Bowl; one-time; max $3; lowest-priced bowl; not valid Family Feasts/catering/third-party</p>
-  <p class="account">Account: fopigoo+pan5@gmail.com</p>
-</article>
-<article class="card">
-  <h2>$3 Off Your Order</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; $3 off your order; max $3; not valid catering/third-party</p>
-  <p class="account">Account: fopigoo+pn34@gmail.com</p>
-</article>
-<article class="card">
-  <h2>$5 Off One Whole Entrée</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; $5 off one whole breakfast/lunch/dinner entrée; one-time; must select when ordering; excludes half sizes/Kids/Family Feasts/Value Duets/You Pick Two/lobster/catering/third-party</p>
-  <p class="account">Account: alin5647.fp1@gmail.com</p>
-</article>
-<article class="card">
-  <h2>$7 Off Your Order</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; $7 off your order; max $2; not valid catering/third-party</p>
-  <p class="account">Account: fopigoo+pan21@gmail.com</p>
-</article>
-<article class="card">
-  <h2>40% Off $20+ Order</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; 40% off order of $20+; max $13; not valid catering/third-party</p>
-  <p class="account">Account: fopigoo+pan19@gmail.com</p>
-</article>
-<article class="card">
-  <h2>50% Off Any Beverage</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; 50% off any beverage; max $2.50; not valid catering/third-party</p>
-  <p class="account">Account: fopigoo+pn27@gmail.com</p>
-</article>
-<article class="card">
-  <h2>Free Bakery Treat</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; one free bakery treat; max $5.59; excludes breads/bulk pastries/spreads; not valid catering/third-party</p>
-  <p class="account">Account: fopigoo+lij4@gmail.com</p>
-</article>
-<article class="card">
+<p class="hint">Tap a card to mark it used or report it as not working.</p>
+<div class="grid" id="active-grid">
+<div class="swipe" data-source="1a1ad08c97420d8e" data-email="alin5647.fp1+pan37@gmail.com" data-promo="$2 Off Your Order">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>$2 Off Your Order</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; $2 off your order; max $2; not valid catering/third-party</p>
+    <p class="account">Account: alin5647.fp1+pan37@gmail.com</p>
+  </article>
+</div>
+<div class="swipe" data-source="1a1acfd5129d40bc" data-email="fopigoo+pan5@gmail.com" data-promo="$3 Off Any Market Bowl">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>$3 Off Any Market Bowl</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; 11/04-11/11/2026; $3 off one Market Bowl; one-time; max $3; lowest-priced bowl; not valid Family Feasts/catering/third-party</p>
+    <p class="account">Account: fopigoo+pan5@gmail.com</p>
+  </article>
+</div>
+<div class="swipe" data-source="1a1acd47fde6e110" data-email="fopigoo+pn34@gmail.com" data-promo="$3 Off Your Order">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>$3 Off Your Order</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; $3 off your order; max $3; not valid catering/third-party</p>
+    <p class="account">Account: fopigoo+pn34@gmail.com</p>
+  </article>
+</div>
+<div class="swipe" data-source="1a1acf0ed7f3ef2f" data-email="alin5647.fp1@gmail.com" data-promo="$5 Off One Whole Entrée">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>$5 Off One Whole Entrée</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; $5 off one whole breakfast/lunch/dinner entrée; one-time; must select when ordering; excludes half sizes/Kids/Family Feasts/Value Duets/You Pick Two/lobster/catering/third-party</p>
+    <p class="account">Account: alin5647.fp1@gmail.com</p>
+  </article>
+</div>
+<div class="swipe" data-source="1a1acca67f4edd99" data-email="fopigoo+pan21@gmail.com" data-promo="$7 Off Your Order">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>$7 Off Your Order</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; $7 off your order; max $2; not valid catering/third-party</p>
+    <p class="account">Account: fopigoo+pan21@gmail.com</p>
+  </article>
+</div>
+<div class="swipe" data-source="1a1acd88c2db2a98" data-email="fopigoo+pan19@gmail.com" data-promo="40% Off $20+ Order">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>40% Off $20+ Order</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; 40% off order of $20+; max $13; not valid catering/third-party</p>
+    <p class="account">Account: fopigoo+pan19@gmail.com</p>
+  </article>
+</div>
+<div class="swipe" data-source="1a1acf7d557e019f" data-email="fopigoo+pn27@gmail.com" data-promo="50% Off Any Beverage">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>50% Off Any Beverage</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; 50% off any beverage; max $2.50; not valid catering/third-party</p>
+    <p class="account">Account: fopigoo+pn27@gmail.com</p>
+  </article>
+</div>
+<div class="swipe" data-source="1a1acc5201705cb1" data-email="fopigoo+lij4@gmail.com" data-promo="Free Bakery Treat">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>Free Bakery Treat</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; one free bakery treat; max $5.59; excludes breads/bulk pastries/spreads; not valid catering/third-party</p>
+    <p class="account">Account: fopigoo+lij4@gmail.com</p>
+  </article>
+</div>
+<div class="swipe" data-source="1a1ace60c485d44d" data-email="fopigoo+pp8@gmail.com" data-promo="Free Beverage">
+  <div class="actions">
+    <button class="btn-used" type="button">Promo used</button>
+    <button class="btn-broken" type="button">Doesn't work</button>
+  </div>
+  <article class="card">
+    <h2>Free Beverage</h2>
+    <p class="expires">Expires Nov 11, 2026</p>
+    <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; one free beverage; max $7.69; not valid catering/third-party</p>
+    <p class="account">Account: fopigoo+pp8@gmail.com</p>
+  </article>
+</div>
+</div><h2 class="section-title">Used</h2>
+<div class="grid used">
+<article class="card record">
   <h2>Free Beverage</h2>
-  <p class="expires">Expires Nov 11, 2026</p>
-  <p class="fine">MyPanera member; auto-loaded; purchase required; one-time; one free beverage; max $7.69; not valid catering/third-party</p>
-  <p class="account">Account: fopigoo+pp8@gmail.com</p>
+  <p class="expires">Expired Oct 14, 2026</p>
+  <p class="fine">MyPanera member; auto-loaded; one-time; max discount $7.69; participating US cafes; not valid catering/third-party</p>
+  <p class="account">Account: fopigoo+pn12@gmail.com &middot; Used</p>
+</article>
+<article class="card record">
+  <h2>$5 Off Your Order</h2>
+  <p class="expires">Expired Oct 14, 2026</p>
+  <p class="fine">MyPanera member; auto-loaded; one-time; max $5; participating US cafes</p>
+  <p class="account">Account: fopigoo+pan19@gmail.com &middot; Used</p>
+</article>
+<article class="card record">
+  <h2>Free Birthday Bakery Treat</h2>
+  <p class="expires">Expired Oct 11, 2026</p>
+  <p class="fine">MyPanera member; added to wallet must select; one-time</p>
+  <p class="account">Account: fopigoo+pan4@gmail.com &middot; Used</p>
 </article>
 </div>
+
 </main>
-<footer>Last updated November 6, 2026 at 11:07 AM ET. Each card shows the full linked email for that offer.</footer>
+<footer>Last updated November 6, 2026 at 4:36 PM ET. Each card shows the full linked email for that offer. Tapping a card reveals "Promo used" and "Doesn't work" — both send a report email that is applied within about 30 minutes.</footer>
+<script>
+(function () {
+  var EMAIL = "alin5647@gmail.com";
+  var KEY = "panera-reported";
+  function loadReported() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "{}"); }
+    catch (e) { return {}; }
+  }
+  function saveReported(m) {
+    try { localStorage.setItem(KEY, JSON.stringify(m)); } catch (e) {}
+  }
+  function applyReported() {
+    var m = loadReported(), now = Date.now(), changed = false;
+    Object.keys(m).forEach(function (sid) {
+      if (now - (m[sid].ts || 0) > 6 * 3600 * 1000) { delete m[sid]; changed = true; return; }
+      var el = document.querySelector('.swipe[data-source="' + sid + '"]');
+      if (el) { el.style.display = "none"; }
+    });
+    if (changed) saveReported(m);
+  }
+  function report(swipe, action) {
+    var sid = swipe.getAttribute("data-source");
+    var email = swipe.getAttribute("data-email");
+    var promo = swipe.getAttribute("data-promo");
+    var m = loadReported();
+    m[sid] = { action: action, ts: Date.now() };
+    saveReported(m);
+    swipe.style.display = "none";
+    var subject = (action === "used" ? "PANERA USED " : "PANERA BROKEN ") + sid;
+    var body = "Promo: " + promo + "\nAccount: " + email + "\nSource: " + sid
+      + "\nReported from the Panera promos site.";
+    window.location.href = "mailto:" + EMAIL
+      + "?subject=" + encodeURIComponent(subject)
+      + "&body=" + encodeURIComponent(body);
+  }
+  document.querySelectorAll(".swipe").forEach(function (swipe) {
+    var card = swipe.querySelector(".card");
+    card.addEventListener("click", function () {
+      swipe.classList.toggle("revealed");
+    });
+    swipe.querySelector(".btn-used").addEventListener("click", function (e) {
+      e.stopPropagation();
+      report(swipe, "used");
+    });
+    swipe.querySelector(".btn-broken").addEventListener("click", function (e) {
+      e.stopPropagation();
+      report(swipe, "broken");
+    });
+  });
+  applyReported();
+})();
+</script>
 </body>
 </html>
